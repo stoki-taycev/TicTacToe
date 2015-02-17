@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="style.css" rel="stylesheet">
+    <script src="angular.min.js"></script>
+    <script src="tutorial.js"></script>
+    <script src="app.js"></script>
+  </head>
+
+  <body ng-app="ticTacToe">
+    <div>
+     <h1>Tic Tac Toe ARRAYS</h1>
+    </div>
+
+    <div ng-controller="SpicyController">
+      <button ng-click="winCheck()">CLICK:</button> <span>{{win}}</span>
+      <br />
+      <div ng-hide="marker" class="ng-hide">
+        Choose your marker:
+        <select ng-model="marker">
+          <option>{{markerX}}</option>
+          <option>{{markerO}}</option>
+        </select>
+      </div>
+      <br />
+      <br />
+      <br />
+      <table ng-show="marker" class="ng-show">
+        <tr>
+          <td id="cell1" ng-click="makeTurn(1)"><div>{{diagonalMarks.mark1}}</div></td>
+          <td id="cell2" ng-click="makeTurn(2)"><div>{{crossMarks.mark2}}</div></td>
+          <td id="cell3" ng-click="makeTurn(3)"><div>{{diagonalMarks.mark3}}</div></td>
+        </tr>
+        <tr>
+          <td id="cell4" ng-click="makeTurn(4)"><div>{{crossMarks.mark4}}</div></td>
+          <td id="cell5" ng-click="makeTurn(5)"><div>{{mark5}}</div></td>
+          <td id="cell6" ng-click="makeTurn(6)"><div>{{crossMarks.mark6}}</div></td>
+        </tr>
+        <tr>
+          <td id="cell7" ng-click="makeTurn(7)"><div>{{diagonalMarks.mark7}}</div></td>
+          <td id="cell8" ng-click="makeTurn(8)"><div>{{crossMarks.mark8}}</div></td>
+          <td id="cell9" ng-click="makeTurn(9)"><div>{{diagonalMarks.mark9}}</div></td>
+        </tr>
+      </table>
+    </div>
+
+
+  </body>
+</html>
