@@ -34,13 +34,13 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
         $scope.crossMarks['mark' + id] = $scope.marker;
       };
 
-      $timeout($scope.appTurn, 1000);
-
       if (($scope.marker != null) && ($scope.appMarker != null)) {
         $scope.isWinner($scope.marker);
-        $scope.isWinner($scope.appMarker);
       };
 
+      if ($scope.win == null) {
+        $timeout($scope.appTurn, 1000);
+      };
     };
   };
 
@@ -89,7 +89,12 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
     }else {
       $scope.makeWin($scope.appMarker);
     };
-    $scope.yourTurn = true;
+
+    $scope.isWinner($scope.appMarker);
+
+    if ($scope.win == null) {
+      $scope.yourTurn = true;
+    };
     console.log("app turned!");
     console.log($scope.yourTurn);
   };
