@@ -330,7 +330,7 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
       (($scope.diagonalMarks.mark1 === marker) && ($scope.mark5 === marker) && ($scope.diagonalMarks.mark9 === marker)) ||
       (($scope.diagonalMarks.mark3 === marker) && ($scope.mark5 === marker) && ($scope.diagonalMarks.mark7 === marker))
     ) {
-        $scope.win = marker + " win!";
+        $scope.win = marker + " wins!";
       };
   };
 
