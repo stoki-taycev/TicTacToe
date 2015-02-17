@@ -1,11 +1,15 @@
 var myApp = angular.module('ticTacToe', []);
 
-myApp.controller('SpicyController', ['$scope', '$timeout', function ($scope, $timeout) {
+myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $timeout) {
   $scope.markerX = "X";
   $scope.markerO = "O";
   $scope.marker = null;
   $scope.appMarker = null;
+
   $scope.win = null;
+  $scope.yourTurn = true;
+
+
   $scope.diagonalMarks = {mark1: null, mark3: null, mark7: null, mark9: null};
   $scope.diagonalMarksIndexes = [1, 3, 7, 9];
   $scope.crossMarks = {mark2: null, mark4: null, mark6: null, mark8: null};
@@ -17,25 +21,26 @@ myApp.controller('SpicyController', ['$scope', '$timeout', function ($scope, $ti
   // Player`s turn with chain of gameplay methods: AI turn and winner check
 
   $scope.makeTurn = function(id) {
+    if ($scope.yourTurn) {
+      console.log($scope.yourTurn);
+      $scope.yourTurn = false;
+      console.log($scope.yourTurn);
+      if ($scope['mark' + id] === null) {
+        $scope['mark' + id] = $scope.marker;
+      } else if ($scope.diagonalMarks['mark' + id] === null) {
+        $scope.diagonalMarks['mark' + id] = $scope.marker;
+        console.log($scope.diagonalMarks);
+      }else if ($scope.crossMarks['mark' + id] === null) {
+        $scope.crossMarks['mark' + id] = $scope.marker;
+      };
 
-    if ($scope['mark' + id] === null) {
-      $scope['mark' + id] = $scope.marker;
-    } else if ($scope.diagonalMarks['mark' + id] === null) {
-      $scope.diagonalMarks['mark' + id] = $scope.marker;
-      console.log($scope.diagonalMarks);
-    }else if ($scope.crossMarks['mark' + id] === null) {
-      $scope.crossMarks['mark' + id] = $scope.marker;
-    };
+      $timeout($scope.appTurn, 1000);
 
-    $timeout($scope.appTurn, 1000);
+      if (($scope.marker != null) && ($scope.appMarker != null)) {
+        $scope.isWinner($scope.marker);
+        $scope.isWinner($scope.appMarker);
+      };
 
-    if (($scope.marker != null) && ($scope.appMarker != null)) {
-      $scope.isWinner($scope.marker);
-      $scope.isWinner($scope.appMarker);
-    };
-
-    if ($scope.win != "win") {
-      $scope.changePlayer();
     };
   };
 
@@ -71,16 +76,22 @@ myApp.controller('SpicyController', ['$scope', '$timeout', function ($scope, $ti
     }else if ($scope.checkWinOrDefence($scope.marker)) {
       $scope.makeDefence($scope.marker, $scope.appMarker);
     }else if ($scope.checkWinOrDefence($scope.marker) != true) {
-      try {
-        randomMove($scope.crossMarks, $scope.crossMarksIndexes);
-      }
-      catch(err) {
-        $scope.win = "Game over!";
+      if ($scope.checkWinOrDefence($scope.appMarker)) {
+        $scope.makeWin($scope.appMarker);
+      }else {
+        try {
+          randomMove($scope.crossMarks, $scope.crossMarksIndexes);
+        }
+        catch(err) {
+          $scope.win = "Game over!";
+        }
       }
     }else {
       $scope.makeWin($scope.appMarker);
     };
+    $scope.yourTurn = true;
     console.log("app turned!");
+    console.log($scope.yourTurn);
   };
 
 
