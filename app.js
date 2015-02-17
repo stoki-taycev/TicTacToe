@@ -60,13 +60,23 @@ myApp.controller('SpicyController', ['$scope', '$timeout', function ($scope, $ti
               ($scope.diagonalMarks.mark7 === null) &&
               ($scope.diagonalMarks.mark9 === null)
       ) {
-      randomMove($scope.diagonalMarks, $scope.diagonalMarksIndexes);
+      try {
+        randomMove($scope.diagonalMarks, $scope.diagonalMarksIndexes);
+      }
+      catch(err) {
+        $scope.win = "Game over!";
+      }
     }else if (($scope.checkWinOrDefence($scope.marker)) && ($scope.checkWinOrDefence($scope.appMarker))) {
       $scope.makeWin($scope.appMarker);
     }else if ($scope.checkWinOrDefence($scope.marker)) {
       $scope.makeDefence($scope.marker, $scope.appMarker);
     }else if ($scope.checkWinOrDefence($scope.marker) != true) {
-      randomMove($scope.crossMarks, $scope.crossMarksIndexes);
+      try {
+        randomMove($scope.crossMarks, $scope.crossMarksIndexes);
+      }
+      catch(err) {
+        $scope.win = "Game over!";
+      }
     }else {
       $scope.makeWin($scope.appMarker);
     };
