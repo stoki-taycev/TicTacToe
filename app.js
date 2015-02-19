@@ -322,7 +322,7 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
   $scope.isWinner = function(marker) {
     if (
       (($scope.diagonalMarks.mark1 === marker) && ($scope.crossMarks.mark2 === marker) && ($scope.diagonalMarks.mark3 === marker)) ||
-      (($scope.crossMarks.mark4 === marker) && ($scope.mark5 === marker) && ($scope.crossMarks.mark6 === $scope.marker)) ||
+      (($scope.crossMarks.mark4 === marker) && ($scope.mark5 === marker) && ($scope.crossMarks.mark6 === marker)) ||
       (($scope.diagonalMarks.mark7 === marker) && ($scope.crossMarks.mark8 === marker) && ($scope.diagonalMarks.mark9 === marker)) ||
       (($scope.diagonalMarks.mark1 === marker) && ($scope.crossMarks.mark4 === marker) && ($scope.diagonalMarks.mark7 === marker)) ||
       (($scope.crossMarks.mark2 === marker) && ($scope.mark5 === marker) && ($scope.crossMarks.mark8 === marker)) ||
