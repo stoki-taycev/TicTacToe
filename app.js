@@ -18,18 +18,27 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
 
 
 
+  // AI`s first turn if player chose "0"
+
+  $scope.$watch("marker", aiFirstTurn);
+
+  function aiFirstTurn() {
+    if($scope.marker == $scope.markerO) {
+      $scope.appTurn();
+    };
+  };
+
+
+
   // Player`s turn with chain of gameplay methods: AI turn and winner check
 
   $scope.makeTurn = function(id) {
     if ($scope.yourTurn) {
-      console.log($scope.yourTurn);
       $scope.yourTurn = false;
-      console.log($scope.yourTurn);
       if ($scope['mark' + id] === null) {
         $scope['mark' + id] = $scope.marker;
-      } else if ($scope.diagonalMarks['mark' + id] === null) {
+      }else if ($scope.diagonalMarks['mark' + id] === null) {
         $scope.diagonalMarks['mark' + id] = $scope.marker;
-        console.log($scope.diagonalMarks);
       }else if ($scope.crossMarks['mark' + id] === null) {
         $scope.crossMarks['mark' + id] = $scope.marker;
       };
@@ -67,10 +76,9 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
       ) {
       try {
         randomMove($scope.diagonalMarks, $scope.diagonalMarksIndexes);
-      }
-      catch(err) {
+      } catch(err) {
         $scope.win = "Game over!";
-      }
+      };
     }else if (($scope.checkWinOrDefence($scope.marker)) && ($scope.checkWinOrDefence($scope.appMarker))) {
       $scope.makeWin($scope.appMarker);
     }else if ($scope.checkWinOrDefence($scope.marker)) {
@@ -81,11 +89,14 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
       }else {
         try {
           randomMove($scope.crossMarks, $scope.crossMarksIndexes);
+        } catch(err) {
+          try {
+            randomMove($scope.diagonalMarks, $scope.diagonalMarksIndexes);
+          } catch(err) {
+            $scope.win = "Tie!";
+          }
         }
-        catch(err) {
-          $scope.win = "Game over!";
-        }
-      }
+      };
     }else {
       $scope.makeWin($scope.appMarker);
     };
@@ -96,7 +107,6 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
       $scope.yourTurn = true;
     };
     console.log("app turned!");
-    console.log($scope.yourTurn);
   };
 
 
@@ -331,15 +341,37 @@ myApp.controller('GmaeController', ['$scope', '$timeout', function ($scope, $tim
       (($scope.diagonalMarks.mark3 === marker) && ($scope.mark5 === marker) && ($scope.diagonalMarks.mark7 === marker))
     ) {
         $scope.win = marker + " wins!";
+      } else if (
+          ($scope.diagonalMarks.mark1 != null) &&
+          ($scope.diagonalMarks.mark3 != null) &&
+          ($scope.diagonalMarks.mark7 != null) &&
+          ($scope.diagonalMarks.mark9 != null) &&
+          ($scope.diagonalMarks.mark2 != null) &&
+          ($scope.diagonalMarks.mark4 != null) &&
+          ($scope.diagonalMarks.mark6 != null) &&
+          ($scope.diagonalMarks.mark8 != null) &&
+          ($scope.mark5 != null)
+        ) {
+        console.log("Is it tie?");
+        $scope.win = "Tie Game Over!";
       };
   };
 
+  $scope.newGame = function () {
+    $scope.markerX = "X";
+    $scope.markerO = "O";
+    $scope.marker = null;
+    $scope.appMarker = null;
+
+    $scope.win = null;
+    $scope.yourTurn = true;
 
 
-  // Change player (for perpective of two persons gameplay)
-
-  $scope.changePlayer = function() {
-    console.log("player changed!");
+    $scope.diagonalMarks = {mark1: null, mark3: null, mark7: null, mark9: null};
+    $scope.diagonalMarksIndexes = [1, 3, 7, 9];
+    $scope.crossMarks = {mark2: null, mark4: null, mark6: null, mark8: null};
+    $scope.crossMarksIndexes = [2, 4, 6, 8];
+    $scope.mark5 = null;
   };
 
 }]);
